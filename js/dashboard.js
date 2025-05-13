@@ -202,16 +202,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const workDurationMs = getWorkDuration();
         
         if (workDurationMs <= 0) {
-            timerElement.textContent = "00:00:00.000";
+            timerElement.textContent = "00:00:00";
             return;
         }
         
         const hours = Math.floor(workDurationMs / (1000 * 60 * 60)).toString().padStart(2, '0');
         const minutes = Math.floor((workDurationMs % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
         const seconds = Math.floor((workDurationMs % (1000 * 60)) / 1000).toString().padStart(2, '0');
-        const milliseconds = Math.floor((workDurationMs % 1000) / 10).toString().padStart(2, '0');
         
-        timerElement.textContent = `${hours}:${minutes}:${seconds}.${milliseconds}`;
+        timerElement.textContent = `${hours}:${minutes}:${seconds}`;
     }
     
     // 获取今天的已工作时间（秒）
