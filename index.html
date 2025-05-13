@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>打工人实时工资入账看板</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/time-picker.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
 </head>
 <body class="input-page">
@@ -31,10 +32,54 @@
                         <div class="time-input">
                             <label for="work-start-time">上班时间</label>
                             <input type="time" id="work-start-time" value="09:00" required>
+                            <button type="button" class="time-picker-toggle" id="start-time-picker-toggle">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path fill="currentColor" d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"></path>
+                                </svg>
+                            </button>
                         </div>
                         <div class="time-input">
                             <label for="work-end-time">下班时间</label>
                             <input type="time" id="work-end-time" value="18:00" required>
+                            <button type="button" class="time-picker-toggle" id="end-time-picker-toggle">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path fill="currentColor" d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 时间选择器弹窗 -->
+                <div class="time-picker-container" id="time-picker-container">
+                    <div class="time-picker-backdrop"></div>
+                    <div class="time-picker">
+                        <div class="time-picker-header">
+                            <span class="time-picker-title">选择时间</span>
+                            <button type="button" class="time-picker-close">&times;</button>
+                        </div>
+                        <div class="time-picker-content">
+                            <div class="time-picker-clock">
+                                <div class="time-picker-clock-center"></div>
+                                <div class="time-picker-clock-hand"></div>
+                                <div class="time-picker-clock-hours">
+                                    <!-- 小时刻度将通过JavaScript动态生成 -->
+                                </div>
+                                <div class="time-picker-clock-minutes">
+                                    <!-- 分钟刻度将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+                            <div class="time-picker-display">
+                                <div class="time-picker-display-time">
+                                    <span class="time-picker-hour">12</span>
+                                    <span class="time-picker-separator">:</span>
+                                    <span class="time-picker-minute">00</span>
+                                </div>
+                                <div class="time-picker-actions">
+                                    <button type="button" class="time-picker-action-button" id="time-picker-cancel">取消</button>
+                                    <button type="button" class="time-picker-action-button" id="time-picker-confirm">确定</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,5 +115,6 @@
     </div>
     
     <script src="js/input.js"></script>
+    <script src="js/time-picker.js"></script>
 </body>
 </html> 

@@ -2,10 +2,13 @@
 :root {
     /* 赛博朋克主题 - 默认 */
     --primary-color: #00f3ff;
+    --primary-color-rgb: 0, 243, 255;
     --secondary-color: #ff00ff;
+    --secondary-color-rgb: 255, 0, 255;
     --background-color: #0c0c16;
     --text-color: #ffffff;
     --accent-color: #ffff00;
+    --accent-color-rgb: 255, 255, 0;
     --container-bg: rgba(12, 12, 22, 0.8);
     --glow-intensity: 5px;
 }
@@ -13,20 +16,26 @@
 /* 主题切换变量 */
 body.theme-minimal {
     --primary-color: #38b2ac;
+    --primary-color-rgb: 56, 178, 172;
     --secondary-color: #4fd1c5;
+    --secondary-color-rgb: 79, 209, 197;
     --background-color: #1a202c;
     --text-color: #e2e8f0;
     --accent-color: #81e6d9;
+    --accent-color-rgb: 129, 230, 217;
     --container-bg: rgba(26, 32, 44, 0.8);
     --glow-intensity: 3px;
 }
 
 body.theme-neon {
     --primary-color: #fc6dab;
+    --primary-color-rgb: 252, 109, 171;
     --secondary-color: #8e2de2;
+    --secondary-color-rgb: 142, 45, 226;
     --background-color: #000;
     --text-color: #fff;
     --accent-color: #36ff3c;
+    --accent-color-rgb: 54, 255, 60;
     --container-bg: rgba(0, 0, 0, 0.8);
     --glow-intensity: 7px;
 }
@@ -150,6 +159,7 @@ input:focus, select:focus {
 
 input[type="range"] {
     -webkit-appearance: none;
+    appearance: none;
     height: 8px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
@@ -181,6 +191,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .time-input {
     flex: 1;
+    position: relative;
 }
 
 .time-input label {
@@ -192,16 +203,22 @@ input[type="time"] {
     background-color: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-color);
-    padding: 0.8rem;
+    padding: 0.8rem 2.5rem 0.8rem 0.8rem;
     border-radius: 5px;
     width: 100%;
     font-size: 1rem;
+    cursor: pointer;
+    position: relative;
 }
 
 input[type="time"]:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
 }
 
 /* 霓虹按钮样式 */

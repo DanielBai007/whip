@@ -1,0 +1,299 @@
+/* 时间选择器样式 */
+
+/* 时间输入组样式修改 */
+.time-input {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.time-picker-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.time-picker-toggle svg {
+    width: 16px;
+    height: 16px;
+    transition: all 0.3s ease;
+}
+
+.time-picker-toggle:hover svg {
+    transform: scale(1.2);
+    color: var(--secondary-color);
+}
+
+/* 时间选择器容器 */
+.time-picker-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.time-picker-container.active {
+    display: flex;
+}
+
+.time-picker-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+}
+
+/* 时间选择器面板 */
+.time-picker {
+    position: relative;
+    width: 340px;
+    max-width: 90%;
+    max-height: 90vh;
+    background-color: var(--container-bg);
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+                0 0 20px var(--primary-color, rgba(0, 243, 255, 0.3));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.time-picker-container.active .time-picker {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* 时间选择器标题 */
+.time-picker-header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.time-picker-title {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.time-picker-close {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.time-picker-close:hover {
+    color: var(--primary-color);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 时间选择器内容 */
+.time-picker-content {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+/* 时钟样式 */
+.time-picker-clock {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.time-picker-clock-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--primary-color);
+    z-index: 3;
+}
+
+.time-picker-clock-hand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color) 30%, var(--secondary-color));
+    transform-origin: left center;
+    transform: translateY(-50%);
+    border-radius: 1px;
+    z-index: 2;
+    box-shadow: 0 0 5px var(--primary-color);
+}
+
+/* 小时和分钟刻度 */
+.time-picker-clock-hours,
+.time-picker-clock-minutes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.time-picker-clock-hours.hide,
+.time-picker-clock-minutes.hide {
+    display: none;
+}
+
+.time-picker-clock-number {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--text-color);
+    font-size: 1rem;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.time-picker-clock-number:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.time-picker-clock-number.active {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    box-shadow: 0 0 8px var(--primary-color);
+}
+
+/* 时间显示部分 */
+.time-picker-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.time-picker-display-time {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+}
+
+.time-picker-hour,
+.time-picker-minute {
+    cursor: pointer;
+    padding: 0 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.time-picker-hour:hover,
+.time-picker-minute:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.time-picker-hour.active,
+.time-picker-minute.active {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
+
+.time-picker-separator {
+    margin: 0 5px;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* 操作按钮 */
+.time-picker-actions {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    gap: 10px;
+}
+
+.time-picker-action-button {
+    background: none;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.time-picker-action-button:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 480px) {
+    .time-picker-clock {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .time-picker-clock-hand {
+        width: 80px;
+    }
+    
+    .time-picker-clock-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+    
+    .time-picker-display-time {
+        font-size: 2rem;
+    }
+} 

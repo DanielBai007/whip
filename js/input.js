@@ -115,12 +115,21 @@ document.addEventListener('DOMContentLoaded', function() {
         daysValueSpan.textContent = this.value;
     });
     
-    // 上下班时间验证
+    // 上下班时间验证 - 保留原有逻辑，与时间选择器共同工作
     const workStartTime = document.getElementById('work-start-time');
     const workEndTime = document.getElementById('work-end-time');
     
     // 验证结束时间必须晚于开始时间
     workEndTime.addEventListener('change', function() {
+        validateWorkTimes();
+    });
+    
+    workStartTime.addEventListener('change', function() {
+        validateWorkTimes();
+    });
+    
+    // 工作时间验证函数 - 抽取为单独函数以便复用
+    function validateWorkTimes() {
         if (workStartTime.value >= workEndTime.value) {
             alert('下班时间必须晚于上班时间！');
             // 默认设置为上班时间后8小时
@@ -130,18 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const minutes = String(startDate.getMinutes()).padStart(2, '0');
             workEndTime.value = `${hours}:${minutes}`;
         }
-    });
-    
-    workStartTime.addEventListener('change', function() {
-        if (workStartTime.value >= workEndTime.value) {
-            // 默认设置为开始时间后8小时
-            const startDate = new Date(`2000-01-01T${workStartTime.value}`);
-            startDate.setHours(startDate.getHours() + 8);
-            const hours = String(startDate.getHours()).padStart(2, '0');
-            const minutes = String(startDate.getMinutes()).padStart(2, '0');
-            workEndTime.value = `${hours}:${minutes}`;
-        }
-    });
+    }
     
     // 汇率换算表 (相对于人民币)
     const exchangeRates = {
