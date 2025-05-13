@@ -1,0 +1,434 @@
+/* 全局样式和变量 */
+:root {
+    /* 赛博朋克主题 - 默认 */
+    --primary-color: #00f3ff;
+    --secondary-color: #ff00ff;
+    --background-color: #0c0c16;
+    --text-color: #ffffff;
+    --accent-color: #ffff00;
+    --container-bg: rgba(12, 12, 22, 0.8);
+    --glow-intensity: 5px;
+}
+
+/* 主题切换变量 */
+body.theme-minimal {
+    --primary-color: #38b2ac;
+    --secondary-color: #4fd1c5;
+    --background-color: #1a202c;
+    --text-color: #e2e8f0;
+    --accent-color: #81e6d9;
+    --container-bg: rgba(26, 32, 44, 0.8);
+    --glow-intensity: 3px;
+}
+
+body.theme-neon {
+    --primary-color: #fc6dab;
+    --secondary-color: #8e2de2;
+    --background-color: #000;
+    --text-color: #fff;
+    --accent-color: #36ff3c;
+    --container-bg: rgba(0, 0, 0, 0.8);
+    --glow-intensity: 7px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(0, 100, 200, 0.1) 0%, transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(200, 0, 100, 0.1) 0%, transparent 30%);
+}
+
+/* 粒子背景容器 */
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 var(--glow-intensity) var(--primary-color);
+    animation: pulse 2s infinite;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    opacity: 0.8;
+}
+
+.highlight {
+    color: var(--primary-color);
+    position: relative;
+    display: inline-block;
+}
+
+@keyframes pulse {
+    0% {
+        text-shadow: 0 0 var(--glow-intensity) var(--primary-color);
+    }
+    50% {
+        text-shadow: 0 0 calc(var(--glow-intensity) * 1.5) var(--primary-color), 
+                    0 0 calc(var(--glow-intensity) * 0.5) var(--secondary-color);
+    }
+    100% {
+        text-shadow: 0 0 var(--glow-intensity) var(--primary-color);
+    }
+}
+
+/* 表单样式 */
+.form-container {
+    background-color: var(--container-bg);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 
+                0 0 30px rgba(var(--primary-color), 0.1);
+    width: 100%;
+    max-width: 500px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    color: var(--primary-color);
+}
+
+input, select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(var(--primary-color), 0.5);
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    outline: none;
+    padding: 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+/* 时间输入控件样式 */
+.time-inputs {
+    margin-bottom: 1.5rem;
+}
+
+.time-group {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.time-input {
+    flex: 1;
+}
+
+.time-input label {
+    font-size: 0.8rem;
+    color: var(--accent-color);
+}
+
+input[type="time"] {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    padding: 0.8rem;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 1rem;
+}
+
+input[type="time"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+/* 霓虹按钮样式 */
+.neon-button {
+    position: relative;
+    display: inline-block;
+    padding: 15px 30px;
+    color: var(--primary-color);
+    background: transparent;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    text-decoration: none;
+    overflow: hidden;
+    transition: 0.5s;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.neon-button:hover {
+    background: var(--primary-color);
+    color: var(--background-color);
+    box-shadow: 0 0 5px var(--primary-color),
+                0 0 25px var(--primary-color),
+                0 0 50px var(--primary-color),
+                0 0 100px var(--primary-color);
+}
+
+.neon-button span {
+    position: absolute;
+    display: block;
+}
+
+.neon-button span:nth-child(1) {
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary-color));
+    animation: btn-anim1 2s linear infinite;
+}
+
+@keyframes btn-anim1 {
+    0% {
+        left: -100%;
+    }
+    50%, 100% {
+        left: 100%;
+    }
+}
+
+.neon-button span:nth-child(2) {
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg, transparent, var(--primary-color));
+    animation: btn-anim2 2s linear infinite;
+    animation-delay: 0.5s;
+}
+
+@keyframes btn-anim2 {
+    0% {
+        top: -100%;
+    }
+    50%, 100% {
+        top: 100%;
+    }
+}
+
+.neon-button span:nth-child(3) {
+    right: -100%;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg, transparent, var(--primary-color));
+    animation: btn-anim3 2s linear infinite;
+    animation-delay: 1s;
+}
+
+@keyframes btn-anim3 {
+    0% {
+        right: -100%;
+    }
+    50%, 100% {
+        right: 100%;
+    }
+}
+
+.neon-button span:nth-child(4) {
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg, transparent, var(--primary-color));
+    animation: btn-anim4 2s linear infinite;
+    animation-delay: 1.5s;
+}
+
+@keyframes btn-anim4 {
+    0% {
+        bottom: -100%;
+    }
+    50%, 100% {
+        bottom: 100%;
+    }
+}
+
+/* 次要按钮样式 */
+.outline-button {
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.outline-button:hover {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .title {
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        font-size: 1rem;
+    }
+    
+    .form-container {
+        padding: 1.5rem;
+    }
+    
+    .neon-button {
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .title {
+        font-size: 1.5rem;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .form-container {
+        padding: 1rem;
+    }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 弹窗提醒样式 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--container-bg);
+    color: var(--text-color);
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3), 
+                0 0 25px rgba(var(--primary-color), 0.2);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    border-left: 4px solid var(--accent-color);
+    animation: slideIn 0.5s ease-out;
+    max-width: 350px;
+}
+
+.notification-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--accent-color);
+}
+
+.notification-message {
+    font-size: 0.9rem;
+}
+
+.notification-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOut {
+    from { transform: translateX(0); opacity: 1; }
+    to { transform: translateX(100%); opacity: 0; }
+}
+
+.notification.hide {
+    animation: slideOut 0.5s ease-out forwards;
+} 

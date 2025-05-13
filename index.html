@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>打工人实时工资入账看板</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+</head>
+<body class="input-page">
+    <div id="particles-js"></div>
+    <div class="container">
+        <div class="form-container">
+            <h1 class="title">打工人<span class="highlight">实时工资</span>看板</h1>
+            <p class="subtitle">输入您的信息，开始见证财富增长的每一秒</p>
+            
+            <form id="salary-form">
+                <div class="form-group">
+                    <label for="monthly-salary">月薪 (元)</label>
+                    <input type="number" id="monthly-salary" required min="1" placeholder="请输入您的月薪">
+                </div>
+                
+                <div class="form-group">
+                    <label for="working-days">月工作天数: <span id="days-value">22</span>天</label>
+                    <input type="range" id="working-days" min="1" max="31" value="22" class="slider">
+                </div>
+                
+                <div class="form-group time-inputs">
+                    <label>工作时间</label>
+                    <div class="time-group">
+                        <div class="time-input">
+                            <label for="work-start-time">上班时间</label>
+                            <input type="time" id="work-start-time" value="09:00" required>
+                        </div>
+                        <div class="time-input">
+                            <label for="work-end-time">下班时间</label>
+                            <input type="time" id="work-end-time" value="18:00" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="currency">货币符号</label>
+                    <select id="currency">
+                        <option value="¥" selected>人民币 (¥)</option>
+                        <option value="$">美元 ($)</option>
+                        <option value="€">欧元 (€)</option>
+                        <option value="£">英镑 (£)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="theme">界面主题</label>
+                    <select id="theme">
+                        <option value="cyberpunk" selected>赛博朋克</option>
+                        <option value="minimal">极简科技</option>
+                        <option value="neon">霓虹风格</option>
+                    </select>
+                </div>
+                
+                <button type="submit" id="start-button" class="neon-button">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    开始计算
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/input.js"></script>
+</body>
+</html> 

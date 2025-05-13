@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>打工人实时工资入账看板</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="dashboard-page">
+    <div class="dashboard-container">
+        <!-- 当前时间 - 右上角 -->
+        <div class="current-time-container">
+            <div class="current-time" id="current-time">00:00:00</div>
+        </div>
+        
+        <!-- 中央收入金额计数器 -->
+        <div class="income-container">
+            <div class="income-label">实时工资收入</div>
+            <div class="income-amount" id="income-amount">
+                <span id="currency-symbol">¥</span>
+                <span id="income-value">0.00000000</span>
+            </div>
+            <div class="work-status" id="work-status"></div>
+            
+            <!-- 每秒收入率 -->
+            <div class="per-second-rate" id="per-second-rate">
+                <span id="per-second-value">0.00000000</span> 元/秒
+            </div>
+            
+            <!-- 霓虹动画框 -->
+            <div class="neon-frame">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <!-- 左侧进度条 -->
+        <div class="progress-container">
+            <div class="progress-label">今日工作进度</div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="progress-percentage" id="progress-percentage">0%</div>
+        </div>
+        
+        <!-- 底部计时器 -->
+        <div class="timer-container">
+            <div class="timer-label">工作计时</div>
+            <div class="timer" id="timer">00:00:00.000</div>
+        </div>
+    </div>
+    
+    <!-- 返回按钮 -->
+    <div class="back-button-container">
+        <button id="back-button" class="outline-button">返回修改</button>
+    </div>
+    
+    <script src="js/dashboard.js"></script>
+</body>
+</html> 
