@@ -41,8 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // 每秒收入 = 月薪 / 工作天数 / 每天工作秒数
     const incomePerSecond = userData.monthlySalary / userData.workingDays / totalWorkSeconds;
     
-    // 显示每秒收入率
-    perSecondValueElement.textContent = incomePerSecond.toFixed(8);
+    // 显示每秒收入率 - 从8位小数改为4位
+    perSecondValueElement.textContent = incomePerSecond.toFixed(4);
     
     // 强制设置开始时间为当前时间
     const startTime = new Date().getTime();
@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 获取旧值以检测变化
         const oldValue = incomeValueElement.textContent;
-        const newValue = currentIncome.toFixed(8);
+        const newValue = currentIncome.toFixed(4); // 从8位改为4位
         
         // 设置新值
         incomeValueElement.textContent = newValue;
