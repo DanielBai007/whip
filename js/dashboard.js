@@ -60,11 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
         incomePerSecond = (userData.monthlySalary / userData.workingDays / totalWorkSeconds) / currencyRate;
     }
     
-<<<<<<< HEAD
     // 显示每秒收入率 - 显示4位小数
-=======
-    // 显示每秒收入率 - 从8位小数改为4位
->>>>>>> c2eaf17e1b27bfd5e63d216ac212f54aab13b141
     perSecondValueElement.textContent = incomePerSecond.toFixed(4);
     
     // 强制设置开始时间为当前时间
