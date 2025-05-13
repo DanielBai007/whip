@@ -146,9 +146,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 汇率换算表 (相对于人民币)
     const exchangeRates = {
         '¥': 1,      // 人民币
-        '$': 0.14,   // 美元
-        '€': 0.13,   // 欧元
-        '£': 0.11    // 英镑
+        '$': 0.14,   // 美元 (1美元=7.14人民币)
+        '€': 0.13,   // 欧元 (1欧元=7.69人民币)
+        '£': 0.11    // 英镑 (1英镑=9.09人民币)
     };
 
     // 货币选择时显示汇率信息
@@ -171,7 +171,8 @@ document.addEventListener('DOMContentLoaded', function() {
             currencyInfoElement.textContent = '';
         } else {
             const rate = exchangeRates[currencySymbol];
-            currencyInfoElement.textContent = `汇率：1人民币 = ${1/rate} ${currencySymbol}`;
+            // 正确显示汇率：1外币=X人民币
+            currencyInfoElement.textContent = `汇率：1${currencySymbol} = ${(1/rate).toFixed(2)} 人民币`;
         }
     }
     

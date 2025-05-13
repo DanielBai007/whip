@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const progressBarElement = document.getElementById('progress-bar');
     const progressPercentageElement = document.getElementById('progress-percentage');
     const perSecondValueElement = document.getElementById('per-second-value');
+    const currencyUnitElement = document.getElementById('currency-unit');
     const workStatusElement = document.getElementById('work-status');
     
     // 立即更新当前时间
@@ -29,12 +30,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // 设置货币符号
     currencySymbolElement.textContent = userData.currency;
     
+    // 设置货币单位文本
+    const currencyUnitMap = {
+        '¥': '元/秒',
+        '$': '美元/秒',
+        '€': '欧元/秒',
+        '£': '英镑/秒'
+    };
+    currencyUnitElement.textContent = currencyUnitMap[userData.currency] || '/秒';
+    
     // 汇率换算表 (相对于人民币)，如果用户数据中没有保存汇率，则使用默认值
     const exchangeRates = {
         '¥': 1,      // 人民币
-        '$': 0.14,   // 美元
-        '€': 0.13,   // 欧元
-        '£': 0.11    // 英镑
+        '$': 0.14,   // 美元 (1美元=7.14人民币)
+        '€': 0.13,   // 欧元 (1欧元=7.69人民币)
+        '£': 0.11    // 英镑 (1英镑=9.09人民币)
     };
     
     // 获取当前货币的汇率因子，优先使用保存的汇率
@@ -49,15 +59,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const secondsPerWorkingHour = 60 * 60; // 每小时的秒数
     const totalWorkSeconds = workHoursPerDay * secondsPerWorkingHour; // 每天工作总秒数
     
-    // 每秒收入 = 月薪 / 工作天数 / 每天工作秒数 * 汇率因子
-    // 如果是人民币，直接计算；如果是其他货币，需要根据汇率转换
+    // 计算人民币的每秒收入
+    const incomePerSecondRMB = userData.monthlySalary / userData.workingDays / totalWorkSeconds;
+    
+    // 根据货币类型转换收入
     let incomePerSecond;
     if (userData.currency === '¥') {
-        // 人民币直接计算
-        incomePerSecond = userData.monthlySalary / userData.workingDays / totalWorkSeconds;
+        // 人民币不需要转换
+        incomePerSecond = incomePerSecondRMB;
     } else {
-        // 其他货币需要转换
-        incomePerSecond = (userData.monthlySalary / userData.workingDays / totalWorkSeconds) / currencyRate;
+        // 其他货币转换:
+        // 汇率格式是：汇率 = 外币数量/人民币数量
+        // 所以：人民币金额 * 汇率 = 外币金额
+        incomePerSecond = incomePerSecondRMB * currencyRate;
     }
     
     // 显示每秒收入率 - 显示4位小数
@@ -276,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
         progressPercentageElement.textContent = Math.round(limitedPercentage) + '%';
     }
     
-    // 立即更新各项数据1
+    // 立即更新各项数据
     updateWorkStatus();
     updateTimer();
     updateIncome();
