@@ -29,6 +29,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // 设置货币符号
     currencySymbolElement.textContent = userData.currency;
     
+    // 汇率换算表 (相对于人民币)，如果用户数据中没有保存汇率，则使用默认值
+    const exchangeRates = {
+        '¥': 1,      // 人民币
+        '$': 0.14,   // 美元
+        '€': 0.13,   // 欧元
+        '£': 0.11    // 英镑
+    };
+    
+    // 获取当前货币的汇率因子，优先使用保存的汇率
+    const currencyRate = userData.exchangeRate || exchangeRates[userData.currency] || 1;
+    
     // 获取工作时间设置
     const workStartTime = userData.workStartTime || "09:00";
     const workEndTime = userData.workEndTime || "18:00";
@@ -38,10 +49,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const secondsPerWorkingHour = 60 * 60; // 每小时的秒数
     const totalWorkSeconds = workHoursPerDay * secondsPerWorkingHour; // 每天工作总秒数
     
-    // 每秒收入 = 月薪 / 工作天数 / 每天工作秒数
-    const incomePerSecond = userData.monthlySalary / userData.workingDays / totalWorkSeconds;
+    // 每秒收入 = 月薪 / 工作天数 / 每天工作秒数 * 汇率因子
+    // 如果是人民币，直接计算；如果是其他货币，需要根据汇率转换
+    let incomePerSecond;
+    if (userData.currency === '¥') {
+        // 人民币直接计算
+        incomePerSecond = userData.monthlySalary / userData.workingDays / totalWorkSeconds;
+    } else {
+        // 其他货币需要转换
+        incomePerSecond = (userData.monthlySalary / userData.workingDays / totalWorkSeconds) / currencyRate;
+    }
     
-    // 显示每秒收入率 - 从8位小数改为4位
+    // 显示每秒收入率 - 显示4位小数
     perSecondValueElement.textContent = incomePerSecond.toFixed(4);
     
     // 强制设置开始时间为当前时间

@@ -143,6 +143,43 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // 汇率换算表 (相对于人民币)
+    const exchangeRates = {
+        '¥': 1,      // 人民币
+        '$': 0.14,   // 美元
+        '€': 0.13,   // 欧元
+        '£': 0.11    // 英镑
+    };
+
+    // 货币选择时显示汇率信息
+    const currencySelect = document.getElementById('currency');
+    const currencyInfoElement = document.createElement('div');
+    currencyInfoElement.className = 'currency-info';
+    currencyInfoElement.style.fontSize = '0.8rem';
+    currencyInfoElement.style.marginTop = '5px';
+    currencyInfoElement.style.opacity = '0.7';
+    
+    // 初始化汇率信息
+    updateCurrencyInfo(currencySelect.value);
+    
+    // 将汇率信息元素添加到DOM
+    currencySelect.parentNode.appendChild(currencyInfoElement);
+    
+    // 更新汇率信息的函数
+    function updateCurrencyInfo(currencySymbol) {
+        if (currencySymbol === '¥') {
+            currencyInfoElement.textContent = '';
+        } else {
+            const rate = exchangeRates[currencySymbol];
+            currencyInfoElement.textContent = `汇率：1人民币 = ${1/rate} ${currencySymbol}`;
+        }
+    }
+    
+    // 货币选择变更事件
+    currencySelect.addEventListener('change', function() {
+        updateCurrencyInfo(this.value);
+    });
+    
     // 主题切换
     const themeSelect = document.getElementById('theme');
     
@@ -206,6 +243,7 @@ document.addEventListener('DOMContentLoaded', function() {
             workEndTime: workEndTime,
             workHoursPerDay: workHoursPerDay,
             currency: currency,
+            exchangeRate: exchangeRates[currency], // 保存当前选择的汇率
             theme: theme,
             startTime: new Date().getTime() // 使用最新的时间戳
         };
@@ -241,6 +279,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         document.getElementById('currency').value = userData.currency;
         document.getElementById('theme').value = userData.theme;
+        
+        // 更新汇率信息
+        if (typeof updateCurrencyInfo === 'function') {
+            updateCurrencyInfo(userData.currency);
+        }
         
         // 应用主题
         document.body.classList.add('theme-' + userData.theme);
