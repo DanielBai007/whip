@@ -1,6 +1,6 @@
 /**
  * 时间轮盘选择器组件
- * 提供直观的时钟式时间选择功能
+ * 提供直观的时钟式时间选择功能，支持24小时制
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 当前活动的输入框和选择模式
     let activeInput = null;
     let isHourMode = true; // true表示选择小时，false表示选择分钟
+    let currentHour = 0; // 当前选择的小时（0-23）
     
     // 初始化时钟刻度
     initClock();
@@ -36,18 +37,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // 解析当前输入框的时间值
         let timeValue = inputElement.value || '00:00';
         let [hours, minutes] = timeValue.split(':').map(Number);
+        currentHour = hours;
         
         // 更新显示的时间
         updateDisplayTime(hours, minutes);
         
-        // 默认从小时开始选择
-        switchToHourMode();
-        
         // 显示时间选择器
         timePickerContainer.classList.add('active');
         
-        // 根据当前小时设置时钟指针位置
-        setClockHandPosition(hours * 30); // 每小时30度
+        // 默认从小时开始选择，更新指针位置
+        setTimeout(() => {
+            switchToHourMode();
+        }, 50);
     }
     
     // 关闭时间选择器
@@ -70,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
         clockHoursContainer.classList.remove('hide');
         clockMinutesContainer.classList.add('hide');
         
-        // 更新小时刻度的激活状态
+        // 更新小时刻度的激活状态和指针位置
         updateHourNumbers();
     }
     
@@ -82,22 +83,51 @@ document.addEventListener('DOMContentLoaded', function() {
         clockHoursContainer.classList.add('hide');
         clockMinutesContainer.classList.remove('hide');
         
-        // 更新分钟刻度的激活状态
+        // 更新分钟刻度的激活状态和指针位置
         updateMinuteNumbers();
     }
     
     // 初始化时钟刻度
     function initClock() {
-        // 生成小时刻度 (1-12)
+        // 清空现有的时钟刻度
+        clockHoursContainer.innerHTML = '';
+        
+        // 生成小时刻度 - 第一圈 (1-12)
         for (let i = 1; i <= 12; i++) {
             const angle = (i * 30) - 90; // 每小时30度，从12点钟方向开始(-90度)
             const x = 110 * Math.cos(angle * Math.PI / 180) + 120; // 半径为110
             const y = 110 * Math.sin(angle * Math.PI / 180) + 120;
             
             const hourNumber = document.createElement('div');
-            hourNumber.className = 'time-picker-clock-number hour-number';
+            hourNumber.className = 'time-picker-clock-number hour-number outer-hour';
             hourNumber.textContent = i;
             hourNumber.dataset.value = i;
+            hourNumber.style.left = `${x}px`;
+            hourNumber.style.top = `${y}px`;
+            
+            hourNumber.addEventListener('click', function() {
+                const hour = parseInt(this.dataset.value);
+                if (hour === 12) {
+                    selectHour(0);
+                } else {
+                    selectHour(hour);
+                }
+            });
+            
+            clockHoursContainer.appendChild(hourNumber);
+        }
+        
+        // 生成小时刻度 - 第二圈 (13-24/00)
+        for (let i = 13; i <= 24; i++) {
+            const displayNum = i === 24 ? '00' : i;
+            const angle = ((i - 12) * 30) - 90; // 每小时30度
+            const x = 80 * Math.cos(angle * Math.PI / 180) + 120; // 内圈半径为80
+            const y = 80 * Math.sin(angle * Math.PI / 180) + 120;
+            
+            const hourNumber = document.createElement('div');
+            hourNumber.className = 'time-picker-clock-number hour-number inner-hour';
+            hourNumber.textContent = displayNum;
+            hourNumber.dataset.value = i === 24 ? 0 : i; // 24点存储为0点
             hourNumber.style.left = `${x}px`;
             hourNumber.style.top = `${y}px`;
             
@@ -135,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 更新小时刻度的激活状态
     function updateHourNumbers() {
         const selectedHour = parseInt(hourDisplay.textContent);
+        currentHour = selectedHour;
         
         // 移除所有激活状态
         document.querySelectorAll('.hour-number').forEach(el => {
@@ -143,13 +174,26 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // 添加当前选中小时的激活状态
         document.querySelectorAll('.hour-number').forEach(el => {
-            if (parseInt(el.dataset.value) === selectedHour) {
+            const hourValue = parseInt(el.dataset.value);
+            if (hourValue === selectedHour) {
                 el.classList.add('active');
             }
         });
         
         // 设置时钟指针的位置
-        const hourAngle = ((selectedHour % 12) * 30) || 360; // 12点时为360度，而不是0度
+        // 计算角度 - 转换为基于12小时制的角度
+        let hourAngle;
+        
+        if (selectedHour >= 12 && selectedHour < 24) {
+            // 13-23点对应内圈，角度需要调整
+            const hour12 = selectedHour % 12;
+            hourAngle = hour12 * 30;
+        } else {
+            // 0-11点对应外圈
+            const hour12 = selectedHour === 0 ? 12 : selectedHour;
+            hourAngle = hour12 * 30;
+        }
+        
         setClockHandPosition(hourAngle);
     }
     
@@ -178,11 +222,14 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 设置时钟指针的位置
     function setClockHandPosition(angle) {
-        clockHand.style.transform = `translateY(-50%) rotate(${angle}deg)`;
+        // 调整计算角度，从12点位置为0度，顺时针旋转
+        const adjustedAngle = angle - 90;
+        clockHand.style.transform = `translateY(-50%) rotate(${adjustedAngle}deg)`;
     }
     
     // 选择小时
     function selectHour(hour) {
+        currentHour = hour;
         hourDisplay.textContent = hour.toString().padStart(2, '0');
         updateHourNumbers();
         
@@ -275,6 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 时钟面板拖动选择功能
     const clockElement = document.querySelector('.time-picker-clock');
     
+    // 处理时钟面板上的交互
     function handleClockInteraction(event) {
         // 获取鼠标相对于时钟中心的位置
         const rect = clockElement.getBoundingClientRect();
@@ -290,26 +338,51 @@ document.addEventListener('DOMContentLoaded', function() {
         const x = clientX - rect.left - centerX;
         const y = clientY - rect.top - centerY;
         
-        // 计算角度（弧度）
+        // 计算角度（弧度）- 注意，y轴向下为正
         let angle = Math.atan2(y, x);
         
-        // 将弧度转换为度数，并调整以使12点钟方向为0度
+        // 将弧度转换为度数，顺时针方向，12点钟方向为0度
         let degrees = angle * (180 / Math.PI) + 90;
         if (degrees < 0) degrees += 360;
         
+        // 计算点击位置到中心的距离
+        const distance = Math.sqrt(x * x + y * y);
+        const normalizedDistance = distance / (rect.width / 2); // 归一化距离，1.0表示到达边缘
+        
         if (isHourMode) {
-            // 计算小时（1-12）
-            let hour = Math.round(degrees / 30);
+            // 计算小时 (把度数转换为小时)
+            let hour = Math.round(degrees / 30) % 12;
             if (hour === 0) hour = 12;
-            if (hour === 12 && degrees < 15) hour = 12;
+            
+            // 根据距离判断是内圈还是外圈
+            if (normalizedDistance < 0.65) {
+                // 内圈 (13-24)
+                hour = hour === 12 ? 0 : hour + 12;
+            } else {
+                // 外圈 (1-12)
+                if (hour === 12) {
+                    hour = 0;
+                }
+            }
+            
             selectHour(hour);
+            
+            // 立即更新指针位置以反映选择
+            updateHourNumbers();
         } else {
-            // 计算分钟（0-55，步长为5）
-            let minute = Math.round(degrees / 6);
+            // 计算分钟（0-59）
+            // 每分钟对应6度，度数除以6得到分钟
+            let minute = Math.floor(degrees / 6);
             if (minute >= 60) minute = 0;
+            
             // 将分钟舍入到最接近的5的倍数
             minute = Math.round(minute / 5) * 5;
+            if (minute === 60) minute = 0;
+            
             selectMinute(minute);
+            
+            // 立即更新指针位置以反映选择
+            updateMinuteNumbers();
         }
     }
     

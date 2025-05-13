@@ -137,6 +137,20 @@
     box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
+/* 添加内圈指示 */
+.time-picker-clock::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    pointer-events: none;
+}
+
 .time-picker-clock-center {
     position: absolute;
     top: 50%;
@@ -194,6 +208,19 @@
     transform: translate(-50%, -50%);
     cursor: pointer;
     transition: all 0.2s ease;
+}
+
+/* 外圈小时刻度（1-12） */
+.time-picker-clock-number.outer-hour {
+    font-weight: bold;
+}
+
+/* 内圈小时刻度（13-24/00） */
+.time-picker-clock-number.inner-hour {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    width: 28px;
+    height: 28px;
 }
 
 .time-picker-clock-number:hover {
@@ -283,6 +310,11 @@
         height: 200px;
     }
     
+    .time-picker-clock::before {
+        width: 130px;
+        height: 130px;
+    }
+    
     .time-picker-clock-hand {
         width: 80px;
     }
@@ -291,6 +323,12 @@
         width: 28px;
         height: 28px;
         font-size: 0.9rem;
+    }
+    
+    .time-picker-clock-number.inner-hour {
+        width: 24px;
+        height: 24px;
+        font-size: 0.7rem;
     }
     
     .time-picker-display-time {
